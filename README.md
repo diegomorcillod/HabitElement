@@ -45,7 +45,7 @@ Cada hábito completado otorga **experiencia (XP)**, desbloquea logros y hace av
 - [x] Configuración del proyecto en Unity y GitHub.  
 - [x] Creación de escenas base: `MainMenu`, `Habits`, `Profile`, `Progress`.  
 - [x] UI base con navegación entre escenas.  
-- [x] Logo pixel art integrado.  
+- [x] Logo pixel art integrado (con fondo transparente).  
 - [x] Efecto *game feel* en botones.  
 - [ ] Pantalla de gestión de hábitos.  
 - [ ] Sistema de experiencia y logros.  
@@ -60,6 +60,7 @@ Cada hábito completado otorga **experiencia (XP)**, desbloquea logros y hace av
 | 2025-10-01 | `feature/ui-base` | 🎨 Creación del menú principal | Escenas base, UI con botones funcionales y navegación entre escenas. |
 | 2025-10-01 | `feature/ui-base` | 🧸 Integración de logo pixel art | Se añade logo con fondo transparente y colocación en Canvas. |
 | 2025-10-01 | `feature/ui-base` | 🪄 Mejora de UX | Añadido efecto de “pulsación” en botones. |
+| 2025-10-02 | `develop` | 📜 README corregido | Se actualiza el README en remoto con contenido completo. |
 | 2025-10-02 | *(pendiente)* | 📊 Implementación gestión de hábitos | Próximo paso: añadir UI y lógica para crear y marcar hábitos. |
 
 ---
