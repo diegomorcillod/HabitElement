@@ -97,3 +97,10 @@ InitTestScene*.unity*
 
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+
+
+# Cache de Visual Studio / Rider
+.vs/
+.idea/
+.vscode/
+*.tmproj
