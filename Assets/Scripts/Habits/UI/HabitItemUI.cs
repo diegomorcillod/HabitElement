@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -8,9 +9,16 @@ public class HabitItemUI : MonoBehaviour
     public TMP_Text textName;
     public Button btnDelete;
 
-    // Stub para pruebas (no hace nada aún)
-    private void Reset()
+    private Action<HabitItemUI> onDeleteCb;
+
+    // Configura el ítem con un nombre y callback de borrado
+    public void Setup(string habitName, Action<HabitItemUI> onDelete)
     {
-        // Si creas el script ya dentro del prefab, Unity intentará autocompletar referencias.
+        textName.text = string.IsNullOrWhiteSpace(habitName) ? "Nuevo hábito" : habitName.Trim();
+        toggleDone.isOn = false;
+
+        onDeleteCb = onDelete;
+        btnDelete.onClick.RemoveAllListeners();
+        btnDelete.onClick.AddListener(() => onDeleteCb?.Invoke(this));
     }
 }
