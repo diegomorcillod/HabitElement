@@ -7,8 +7,8 @@ public class HabitUIController : MonoBehaviour
 {
     [Header("UI Refs")]
     public TMP_InputField inputNewHabit;
-    public Transform content;           // ScrollView_Habits/Viewport/Content
-    public GameObject habitItemPrefab;  // Prefab HabitItem
+    public Transform content;
+    public GameObject habitItemPrefab;
 
     [Header("XP")]
     public XpSystem xpSystem;
@@ -18,9 +18,8 @@ public class HabitUIController : MonoBehaviour
 
     private void Start()
     {
-        var loaded = HabitStore.Load();
         habits.Clear();
-        habits.AddRange(loaded);
+        habits.AddRange(HabitStore.Load());
         RenderList();
     }
 
@@ -37,16 +36,13 @@ public class HabitUIController : MonoBehaviour
 
     private void RenderList()
     {
-        // Limpia
-        for (int i = content.childCount - 1; i >= 0; i--)
-            Destroy(content.GetChild(i).gameObject);
+        for (int i = content.childCount - 1; i >= 0; i--) Destroy(content.GetChild(i).gameObject);
 
-        // Crea
         foreach (var h in habits)
         {
             var go = Instantiate(habitItemPrefab, content);
             var ui = go.GetComponent<HabitItemUI>();
-            ui.Bind(h, OnToggleChanged, OnDeleteRequested);
+            ui.Bind(h, OnToggleChanged, OnDeleteRequested, OnRenameRequested);
         }
 
         LayoutRebuilder.ForceRebuildLayoutImmediate(content as RectTransform);
@@ -56,10 +52,7 @@ public class HabitUIController : MonoBehaviour
     {
         bool wasDone = habit.IsDoneToday();
         habit.SetDoneToday(nowOn);
-
-        // Da XP sólo cuando pasa de "no hecho" -> "hecho hoy"
         if (!wasDone && nowOn) xpSystem?.AddXp(xpPerHabit);
-
         HabitStore.Save(habits);
     }
 
@@ -68,5 +61,14 @@ public class HabitUIController : MonoBehaviour
         habits.RemoveAll(x => x.id == habit.id);
         HabitStore.Save(habits);
         RenderList();
+    }
+
+    private void OnRenameRequested(Habit habit, string newName)
+    {
+        // Actualiza el modelo y persiste
+        var idx = habits.FindIndex(x => x.id == habit.id);
+        if (idx >= 0) habits[idx].name = newName;
+        HabitStore.Save(habits);
+        // No hace falta re-render completo; el item ya actualizó su propio texto
     }
 }
