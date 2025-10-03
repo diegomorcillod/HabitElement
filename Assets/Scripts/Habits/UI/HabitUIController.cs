@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;   // LayoutRebuilder
+using UnityEngine.UI;
 using TMPro;
 
 public class HabitUIController : MonoBehaviour
@@ -12,35 +12,61 @@ public class HabitUIController : MonoBehaviour
 
     [Header("XP")]
     public XpSystem xpSystem;
+    public int xpPerHabit = 10;
 
-    private readonly List<HabitItemUI> items = new();
+    private readonly List<Habit> habits = new();
+
+    private void Start()
+    {
+        var loaded = HabitStore.Load();
+        habits.Clear();
+        habits.AddRange(loaded);
+        RenderList();
+    }
 
     public void OnAddHabitClicked()
     {
-        if (inputNewHabit == null || content == null || habitItemPrefab == null) return;
+        var name = inputNewHabit?.text?.Trim();
+        if (string.IsNullOrEmpty(name) || habitItemPrefab == null || content == null) return;
 
-        var name = inputNewHabit.text?.Trim();
-        if (string.IsNullOrEmpty(name)) return;
+        habits.Add(new Habit(name));
+        HabitStore.Save(habits);
+        inputNewHabit.text = "";
+        RenderList();
+    }
 
-        var go = Instantiate(habitItemPrefab, content);
-        var ui = go.GetComponent<HabitItemUI>();
-        if (ui != null)
+    private void RenderList()
+    {
+        // Limpia
+        for (int i = content.childCount - 1; i >= 0; i--)
+            Destroy(content.GetChild(i).gameObject);
+
+        // Crea
+        foreach (var h in habits)
         {
-            ui.Setup(name, OnItemDeleteRequested);
-            items.Add(ui);
+            var go = Instantiate(habitItemPrefab, content);
+            var ui = go.GetComponent<HabitItemUI>();
+            ui.Bind(h, OnToggleChanged, OnDeleteRequested);
         }
 
-        inputNewHabit.text = string.Empty;
-
-        // Refresca layout por si el item no aparece al instante
         LayoutRebuilder.ForceRebuildLayoutImmediate(content as RectTransform);
     }
 
-    private void OnItemDeleteRequested(HabitItemUI item)
+    private void OnToggleChanged(Habit habit, bool nowOn)
     {
-        if (item == null) return;
-        items.Remove(item);
-        Destroy(item.gameObject);
-        LayoutRebuilder.ForceRebuildLayoutImmediate(content as RectTransform);
+        bool wasDone = habit.IsDoneToday();
+        habit.SetDoneToday(nowOn);
+
+        // Da XP sólo cuando pasa de "no hecho" -> "hecho hoy"
+        if (!wasDone && nowOn) xpSystem?.AddXp(xpPerHabit);
+
+        HabitStore.Save(habits);
+    }
+
+    private void OnDeleteRequested(Habit habit)
+    {
+        habits.RemoveAll(x => x.id == habit.id);
+        HabitStore.Save(habits);
+        RenderList();
     }
 }
