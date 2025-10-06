@@ -16,8 +16,8 @@ public class Habit
         this.streak = 0;
     }
 
-    public static string Today() => DateTime.UtcNow.ToString("yyyy-MM-dd");
-    public static string Yesterday() => DateTime.UtcNow.AddDays(-1).ToString("yyyy-MM-dd");
+    public static string Today() => DateTime.Now.ToString("yyyy-MM-dd");
+    public static string Yesterday() => DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
     public bool IsDoneToday() => lastDoneDate == Today();
 
     public void SetDoneToday(bool done)

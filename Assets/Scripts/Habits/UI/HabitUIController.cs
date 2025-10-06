@@ -17,6 +17,9 @@ public class HabitUIController : MonoBehaviour
     [Header("Dialogs")]
     public ConfirmDialog confirmDialog; // Asigna la INSTANCIA de escena
 
+    [Header("System")]
+    public DayWatcher dayWatcher;
+
     private readonly List<Habit> habits = new();
 
     private void Start()
@@ -25,6 +28,8 @@ public class HabitUIController : MonoBehaviour
         habits.AddRange(HabitStore.Load());
         Debug.Log($"[HabitUI] Start → cargados {habits.Count} hábitos");
         RenderList();
+        if (dayWatcher != null)
+            dayWatcher.OnDayChanged.AddListener(OnDayChanged);
     }
 
     public void OnAddHabitClicked()
@@ -120,6 +125,24 @@ public class HabitUIController : MonoBehaviour
             Debug.LogWarning($"[HabitUI] Rename → habit id no encontrado: {habit.id}");
         }
         // no hace falta re-render aquí
+    }
+        private void OnDestroy()
+    {
+        if (dayWatcher != null)
+            dayWatcher.OnDayChanged.RemoveListener(OnDayChanged);
+    }
+
+    private void OnDayChanged()
+    {
+        // Simplemente re-render: los toggles se basan en IsDoneToday() y quedarán desmarcados
+        RenderList();
+    }
+
+    private void OnApplicationFocus(bool hasFocus)
+    {
+        // Si no usas DayWatcher, podrías comprobar aquí también; con DayWatcher, basta.
+        if (hasFocus)
+            RenderList();
     }
 }
 

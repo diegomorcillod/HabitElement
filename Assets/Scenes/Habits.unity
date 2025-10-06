@@ -835,6 +835,7 @@ RectTransform:
   - {fileID: 1831670350}
   - {fileID: 1802635470}
   - {fileID: 2132349704}
+  - {fileID: 2135396627}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1748,6 +1749,7 @@ MonoBehaviour:
   xpSystem: {fileID: 1829871073}
   xpPerHabit: 10
   confirmDialog: {fileID: 7909602806333733463}
+  dayWatcher: {fileID: 2135396626}
 --- !u!4 &1394676371
 Transform:
   m_ObjectHideFlags: 0
@@ -2942,6 +2944,58 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LoadSceneOnClick
   sceneName: MainMenu
+--- !u!1 &2135396625
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2135396627}
+  - component: {fileID: 2135396626}
+  m_Layer: 5
+  m_Name: System_DayWatcher
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2135396626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2135396625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17bfd0d9fb1e9e9eaa00ae5c29d8bf00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DayWatcher
+  checkIntervalSeconds: 30
+  OnDayChanged:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!224 &2135396627
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2135396625}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 345072209}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2137896135
 GameObject:
   m_ObjectHideFlags: 0
