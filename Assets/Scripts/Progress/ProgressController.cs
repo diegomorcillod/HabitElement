@@ -37,9 +37,9 @@ public class ProgressController : MonoBehaviour
             .ToList();
 
         // XP/Nivel desde PlayerPrefs (mismo formato que XpSystem)
-        int currentXp = PlayerPrefs.GetInt(KEY_XP, 0);
-        int level     = Mathf.Max(1, PlayerPrefs.GetInt(KEY_LV, 1));
-        int needed    = XpNeededForLevel(level);
+        int currentXp = PlayerPrefs.GetInt(XpSystem.KEY_XP, 0);
+        int level     = Mathf.Max(1, PlayerPrefs.GetInt(XpSystem.KEY_LV, 1));
+        int needed    = 100 + 25 * (level - 1); // misma fórmula
 
         // UI
         if (totalText)       totalText.text       = total.ToString();
