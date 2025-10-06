@@ -75,6 +75,7 @@ public class HabitUIController : MonoBehaviour
         }
 
         HabitStore.Save(habits);
+        RenderList();
     }
 
     private void OnDeleteRequested(Habit habit)
