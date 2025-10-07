@@ -166,6 +166,9 @@ public class HabitUIController : MonoBehaviour
         if (!wasDone && nowOn)
         {
             xpSystem?.AddXp(xpPerHabit);
+            int total = PlayerPrefs.GetInt("xp_total", 0);
+            PlayerPrefs.SetInt("xp_total", total + xpPerHabit);
+            PlayerPrefs.Save();
             Debug.Log($"[HabitUI] Toggle ON → +{xpPerHabit} XP para «{habit.name}»");
         }
         else
